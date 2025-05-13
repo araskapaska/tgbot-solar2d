@@ -29,10 +29,10 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <h1 class="text-xl font-semibold">TGBOT SOLAR API</h1>
             <div class="flex items-center space-x-4">
-                <a href="https://github.com/yourusername/tgbot-solar-api" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/araskapaska/tgbot_source" target="_blank" rel="noopener noreferrer">
                     <img src="/github.png" alt="GitHub" class="w-6 h-6" />
                 </a>
-                <a href="https://t.me/tgbot_solar2d_api" target="_blank" rel="noopener noreferrer">
+                <a href="https://t.me/tgbot_solar2d" target="_blank" rel="noopener noreferrer">
                     <img src="/telegram.png" alt="Telegram" class="w-6 h-6" />
                 </a>
             </div>
@@ -41,36 +41,37 @@
 
     <nav id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gray-800 text-white transform -translate-x-full z-30">
         <div class="p-4">
-            <h2 class="text-lg font-semibold mb-4">навигация</h2>
+            <h2 class="text-lg font-semibold mb-4">Навигация</h2>
             <ul class="space-y-2">
-                <li><a href="#introduction" class="hover:text-blue-400">введение</a></li>
-                <li><a href="#installation" class="hover:text-blue-400">установка</a></li>
-                <li><a href="#send-message" class="hover:text-blue-400">отправка сообщений</a></li>
-                <li><a href="#send-media" class="hover:text-blue-400">отправка медиа</a></li>
-                <li><a href="#inline-keyboard" class="hover:text-blue-400">inline-кнопки</a></li>
-                <li><a href="#callback-query" class="hover:text-blue-400">обработка callback</a></li>
-                <li><a href="#polling" class="hover:text-blue-400">polling</a></li>
-                <li><a href="#webhook" class="hover:text-blue-400">вебхуки</a></li>
+                <li><a href="#introduction" class="hover:text-blue-400">Введение</a></li>
+                <li><a href="#installation" class="hover:text-blue-400">Установка</a></li>
+                <li><a href="#send-message" class="hover:text-blue-400">Отправка Сообщений</a></li>
+                <li><a href="#send-media" class="hover:text-blue-400">Отправка Медиа</a></li>
+                <li><a href="#inline-keyboard" class="hover:text-blue-400">Inline-Кнопки</a></li>
+                <li><a href="#callback-query" class="hover:text-blue-400">Обработка Callback</a></li>
+                <li><a href="#polling" class="hover:text-blue-400">Polling</a></li>
+                <li><a href="#webhook" class="hover:text-blue-400">Вебхуки</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container mx-auto px-4 py-20">
         <h2 class="text-3xl font-bold mb-6" id="introduction">Документация TGBOT SOLAR API</h2>
-        <p class="mb-4">это документация для плагина telegram bot api под solar2d, созданного <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>. с ним можно делать крутых ботов для telegram с текстом, медиа, кнопками и прочим.</p>
+        <p class="mb-4">Это документация для плагина Telegram Bot API для Solar2D, созданного <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>. Плагин позволяет создавать Telegram-ботов с поддержкой текста, медиа, inline-кнопок и других функций.</p>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="installation">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">установка</h3>
-            <p class="mb-2">кинь файл <code class="bg-gray-700 px-1 rounded">telegram_bot.lua</code> в корень проекта и настрой бота с токеном.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Установка</h3>
+            <p class="mb-2">Скопируйте файл <code class="bg-gray-700 px-1 rounded">telegram_bot.lua</code> в корень проекта и настройте бота с токеном.</p>
             <div class="relative">
                 <pre><code class="language-lua">local telegram = require("telegram_bot")
 
+-- тут инициализируем бота
 telegram.init({
     token = "YOUR_BOT_TOKEN",
     botName = "@YourBotName"
 })
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -79,8 +80,8 @@ telegram.init({
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="send-message">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">отправка сообщений</h3>
-            <p class="mb-2">функция <code class="bg-gray-700 px-1 rounded">sendMessage</code> шлет текст в чат.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Отправка Сообщений</h3>
+            <p class="mb-2">Функция <code class="bg-gray-700 px-1 rounded">sendMessage</code> отправляет текстовое сообщение в чат.</p>
             <div class="relative">
                 <pre><code class="language-lua">telegram.sendMessage(chatId, "привет от solar2d!", { parseMode = "Markdown" }, function(result, error)
     if error then
@@ -90,7 +91,7 @@ telegram.init({
     end
 end)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -99,8 +100,8 @@ end)
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="send-media">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">отправка медиа</h3>
-            <p class="mb-2">функция <code class="bg-gray-700 px-1 rounded">sendMedia</code> отправляет фотки, видео, файлы или аудио.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Отправка Медиа</h3>
+            <p class="mb-2">Функция <code class="bg-gray-700 px-1 rounded">sendMedia</code> отправляет фото, видео, файлы или аудио.</p>
             <div class="relative">
                 <pre><code class="language-lua">telegram.sendMedia(chatId, "photo", "https://example.com/image.jpg", {
     caption = "пример фотки",
@@ -113,7 +114,7 @@ end)
     end
 end)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -122,8 +123,8 @@ end)
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="inline-keyboard">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">inline-кнопки</h3>
-            <p class="mb-2">функция <code class="bg-gray-700 px-1 rounded">sendInlineKeyboard</code> шлет сообщение с кнопками.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Inline-Кнопки</h3>
+            <p class="mb-2">Функция <code class="bg-gray-700 px-1 rounded">sendInlineKeyboard</code> отправляет сообщение с интерактивными кнопками.</p>
             <div class="relative">
                 <pre><code class="language-lua">telegram.sendInlineKeyboard(chatId, "выбери что-нибудь:", {
     {{text = "кнопка 1", callback_data = "btn1"}},
@@ -136,7 +137,7 @@ end)
     end
 end)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -145,8 +146,8 @@ end)
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="callback-query">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">обработка callback</h3>
-            <p class="mb-2">функция <code class="bg-gray-700 px-1 rounded">answerCallbackQuery</code> отвечает на нажатие inline-кнопок.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Обработка Callback</h3>
+            <p class="mb-2">Функция <code class="bg-gray-700 px-1 rounded">answerCallbackQuery</code> отвечает на нажатие inline-кнопок.</p>
             <div class="relative">
                 <pre><code class="language-lua">telegram.answerCallbackQuery(callbackQueryId, "ты нажал: " .. data, false, function(result, error)
     if error then
@@ -156,7 +157,7 @@ end)
     end
 end)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -165,8 +166,8 @@ end)
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="polling">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">polling</h3>
-            <p class="mb-2">функция <code class="bg-gray-700 px-1 rounded">startPolling</code> запускает обработку сообщений и событий.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Polling</h3>
+            <p class="mb-2">Функция <code class="bg-gray-700 px-1 rounded">startPolling</code> запускает обработку сообщений и событий.</p>
             <div class="relative">
                 <pre><code class="language-lua">local function eventHandler(eventType, data)
     if eventType == "command" and data.command == "start" then
@@ -176,9 +177,10 @@ end)
     end
 end
 
+-- запускаем polling
 telegram.startPolling(eventHandler)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -187,8 +189,8 @@ telegram.startPolling(eventHandler)
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="webhook">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">вебхуки</h3>
-            <p class="mb-2">функции <code class="bg-gray-700 px-1 rounded">setWebhook</code> и <code class="bg-gray-700 px-1 rounded">deleteWebhook</code> настраивают вебхуки для продакшена.</p>
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Вебхуки</h3>
+            <p class="mb-2">Функции <code class="bg-gray-700 px-1 rounded">setWebhook</code> и <code class="bg-gray-700 px-1 rounded">deleteWebhook</code> настраивают вебхуки для продакшена.</p>
             <div class="relative">
                 <pre><code class="language-lua">telegram.setWebhook("https://your-server.com/webhook", function(result, error)
     if error then
@@ -198,6 +200,7 @@ telegram.startPolling(eventHandler)
     end
 end)
 
+-- убираем вебхук
 telegram.deleteWebhook(function(result, error)
     if error then
         print("ошибка: " .. error)
@@ -206,7 +209,7 @@ telegram.deleteWebhook(function(result, error)
     end
 end)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="копировать код">
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -217,8 +220,8 @@ end)
 
     <footer class="bg-gray-800 text-white py-4">
         <div class="container mx-auto px-4 text-center">
-            <p>© 2025 TGBOT SOLAR API. создан <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>.</p>
-            <p>заходи в наш <a href="https://t.me/tgbot_solar2d_api" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">telegram-канал</a> за обновлениями.</p>
+            <p>© 2025 TGBOT SOLAR API. Создан <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>.</p>
+            <p>Заходи в наш <a href="https://t.me/tgbot_solar2d_api" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Telegram-канал</a> за обновлениями.</p>
         </div>
     </footer>
 
