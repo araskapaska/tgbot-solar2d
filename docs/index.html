@@ -29,37 +29,35 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <h1 class="text-xl font-semibold">TGBOT SOLAR API</h1>
             <div class="flex items-center space-x-4">
-                <a href="https://t.me/tgbot_solar2d_api" target="_blank" rel="noopener noreferrer">
-                    <img src="telegram.png" class="w-6 h-6" />
+                <a href="https://github.com/yourusername/tgbot-solar-api" target="_blank" rel="noopener noreferrer">
+                    <img src="/github.png" alt="GitHub" class="w-6 h-6" />
                 </a>
-                <button id="menu-btn" class="focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
+                <a href="https://t.me/tgbot_solar2d_api" target="_blank" rel="noopener noreferrer">
+                    <img src="/telegram.png" alt="Telegram" class="w-6 h-6" />
+                </a>
             </div>
         </div>
     </header>
 
     <nav id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gray-800 text-white transform -translate-x-full z-30">
         <div class="p-4">
-            <h2 class="text-lg font-semibold mb-4">Yавигация</h2>
+            <h2 class="text-lg font-semibold mb-4">навигация</h2>
             <ul class="space-y-2">
-                <li><a href="#introduction" class="hover:text-blue-400">Введение</a></li>
-                <li><a href="#installation" class="hover:text-blue-400">Установка</a></li>
-                <li><a href="#send-message" class="hover:text-blue-400">Отправка сообщений</a></li>
-                <li><a href="#send-media" class="hover:text-blue-400">Отправка медиа</a></li>
-                <li><a href="#inline-keyboard" class="hover:text-blue-400">Inline-кнопки</a></li>
-                <li><a href="#callback-query" class="hover:text-blue-400">Обработка callback</a></li>
-                <li><a href="#polling" class="hover:text-blue-400">Polling</a></li>
-                <li><a href="#webhook" class="hover:text-blue-400">Вебхуки</a></li>
+                <li><a href="#introduction" class="hover:text-blue-400">введение</a></li>
+                <li><a href="#installation" class="hover:text-blue-400">установка</a></li>
+                <li><a href="#send-message" class="hover:text-blue-400">отправка сообщений</a></li>
+                <li><a href="#send-media" class="hover:text-blue-400">отправка медиа</a></li>
+                <li><a href="#inline-keyboard" class="hover:text-blue-400">inline-кнопки</a></li>
+                <li><a href="#callback-query" class="hover:text-blue-400">обработка callback</a></li>
+                <li><a href="#polling" class="hover:text-blue-400">polling</a></li>
+                <li><a href="#webhook" class="hover:text-blue-400">вебхуки</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container mx-auto px-4 py-20">
-        <h2 class="text-3xl font-bold mb-6" id="introduction">Документация TGBOT SOLAR2D API</h2>
-        <p class="mb-4">Это документация для плагина telegram bot api под solar2d, созданного <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>.С ним можно делать крутых ботов для telegram с текстом, медиа, кнопками и прочим.</p>
+        <h2 class="text-3xl font-bold mb-6" id="introduction">Документация TGBOT SOLAR API</h2>
+        <p class="mb-4">это документация для плагина telegram bot api под solar2d, созданного <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>. с ним можно делать крутых ботов для telegram с текстом, медиа, кнопками и прочим.</p>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="installation">
             <h3 class="text-2xl font-semibold mb-4 text-blue-400">установка</h3>
@@ -226,12 +224,7 @@ end)
 
     <script>
         const sidebar = document.getElementById('sidebar');
-        const menuBtn = document.getElementById('menu-btn');
         let startX, isDragging = false;
-
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
 
         document.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
@@ -251,7 +244,7 @@ end)
         });
 
         document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
+            if (!sidebar.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
                 sidebar.classList.add('-translate-x-full');
             }
         });
