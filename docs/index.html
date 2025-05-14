@@ -722,7 +722,7 @@ end)
 
 telegram.signIn({
     code = "12345",
-    cloudPassword = "YOUR_CLOUD_PASSWORD" -- Облачный пароль для двухфакторной аутентификации
+    cloudPassword = "YOUR_CLOUD_PASSWORD" -- Облачный пароль для двухфакторной аутентификации(если есть)
 }, function(result, error)
     if error then
         print("Ошибка: " .. error)
