@@ -704,9 +704,9 @@ end)
             <h3 class="text-2xl font-semibold mb-4 text-blue-400">API для Юзерботов</h3>
             <p class="mb-2">API для юзерботов использует MTProto через заглушку <code class="bg-gray-700 px-1 rounded">lua-telegram-mtproto</code>.</p>
 
-            <h4 class="text-xl font-semibold mb-2">Инициализация и авторизация</h4>
-            <div class="relative">
-                <pre><code class="language-lua">telegram.initUserbot({
+<h4 class="text-xl font-semibold mb-2">Инициализация и авторизация</h4>
+<div class="relative">
+    <pre><code class="language-lua">telegram.initUserbot({
     apiId = 12345,
     apiHash = "YOUR_API_HASH",
     phoneNumber = "+1234567890"
@@ -720,7 +720,10 @@ telegram.requestCode(function(result, error)
     end
 end)
 
-telegram.signIn({code = "12345"}, function(result, error)
+telegram.signIn({
+    code = "12345",
+    cloudPassword = "YOUR_CLOUD_PASSWORD" -- Облачный пароль для двухфакторной аутентификации
+}, function(result, error)
     if error then
         print("Ошибка: " .. error)
     else
@@ -728,12 +731,12 @@ telegram.signIn({code = "12345"}, function(result, error)
     end
 end)
 </code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
+    <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+    </button>
+</div>
 
             <h4 class="text-xl font-semibold mb-2">Методы</h4>
             <ol class="list-decimal pl-5 space-y-4">
