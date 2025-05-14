@@ -46,30 +46,35 @@
                 <li><a href="#introduction" class="hover:text-blue-400">Введение</a></li>
                 <li><a href="#installation" class="hover:text-blue-400">Установка</a></li>
                 <li><a href="#constants" class="hover:text-blue-400">Константы</a></li>
-                <li><a href="#send-message" class="hover:text-blue-400">Отправка Сообщений</a></li>
-                <li><a href="#send-media" class="hover:text-blue-400">Отправка Медиа</a></li>
-                <li><a href="#inline-keyboard" class="hover:text-blue-400">Inline-Кнопки</a></li>
-                <li><a href="#callback-query" class="hover:text-blue-400">Callback-Запросы</a></li>
-                <li><a href="#polling" class="hover:text-blue-400">Polling</a></li>
-                <li><a href="#webhook" class="hover:text-blue-400">Вебхуки</a></li>
+                <li><a href="#bot-api" class="hover:text-blue-400">API для Ботов</a></li>
+                <li><a href="#userbot-api" class="hover:text-blue-400">API для Юзерботов</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container mx-auto px-4 py-20">
         <h2 class="text-3xl font-bold mb-6" id="introduction">Документация TGBOT SOLAR API</h2>
-        <p class="mb-4">Это документация для плагина Telegram Bot API для Solar2D, созданного <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>. Плагин позволяет создавать Telegram-ботов с поддержкой текстовых сообщений, медиа, inline-кнопок, callback-запросов, polling и вебхуков.</p>
+        <p class="mb-4">Документация для плагина Telegram API для Solar2D, созданного <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>. Поддерживает ботов (Bot API) и юзерботов (MTProto API).</p>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="installation">
             <h3 class="text-2xl font-semibold mb-4 text-blue-400">Установка</h3>
-            <p class="mb-2">Скопируйте файл <code class="bg-gray-700 px-1 rounded">telegram_bot.lua</code> в корень проекта и инициализируйте бота с токеном от <a href="https://t.me/BotFather" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@BotFather</a>.</p>
+            <p class="mb-2">Скопируйте <code class="bg-gray-700 px-1 rounded">telegram_api.lua</code> в корень проекта.</p>
+            <p class="mb-2">Для ботов: получите токен от <a href="https://t.me/BotFather" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@BotFather</a>.</p>
+            <p class="mb-2">Для юзерботов: получите <code>api_id</code> и <code>api_hash</code> на <a href="https://my.telegram.org" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">my.telegram.org</a>.</p>
             <div class="relative">
-                <pre><code class="language-lua">local telegram = require("telegram_bot")
+                <pre><code class="language-lua">local telegram = require("telegram_api")
 
--- тут инициализируем бота
-telegram.init({
+-- бот
+telegram.initBot({
     token = "YOUR_BOT_TOKEN",
     botName = "@YourBotName"
+})
+
+-- юзербот
+telegram.initUserbot({
+    apiId = 12345,
+    apiHash = "YOUR_API_HASH",
+    phoneNumber = "+1234567890"
 })
 </code></pre>
                 <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
@@ -78,180 +83,14 @@ telegram.init({
                     </svg>
                 </button>
             </div>
-            <p class="mt-2">Параметры:</p>
-            <ul class="list-disc pl-5">
-                <li><code>token</code>: Токен бота (обязательный).</li>
-                <li><code>botName</code>: Имя бота, например, "@MyBot" (необязательный).</li>
-            </ul>
         </section>
 
         <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="constants">
             <h3 class="text-2xl font-semibold mb-4 text-blue-400">Константы</h3>
-            <p class="mb-2">Плагин поддерживает константы, которые заменяются на данные пользователя или чата из последнего события. Используйте их в текстах сообщений, подписях медиа или ответах на callback-запросы.</p>
-            <p class="mb-2">Доступные константы:</p>
+            <p class="mb-2">Константы заменяются данными из последнего события.</p>
             <ul class="list-disc pl-5 mb-2">
                 <li><code>$first_name$</code>: Имя пользователя.</li>
-                <li><code>$last_name$</code>: Фамилия пользователя.</li>
-                <li><code>$age$</code>: Возраст пользователя (если указан).</li>
-                <li><code>$last_message_text$</code>: Текст последнего сообщения.</li>
-                <li><code>$username$</code>: Имя пользователя (@username).</li>
-                <li><code>$chat_id$</code>: ID чата.</li>
-            </ul>
-            <p class="mb-2">Пример использования:</p>
-            <div class="relative">
-                <pre><code class="language-lua">telegram.sendMessage(nil, "привет, $first_name$! твой id: $chat_id$", nil, function(result, error)
-    if error then
-        print("ошибка: " .. error)
-    else
-        print("сообщение ушло!")
-    end
-end)
-</code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
-        </section>
-
-        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="send-message">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Отправка Сообщений</h3>
-            <p class="mb-2">Метод <code class="bg-gray-700 px-1 rounded">sendMessage</code> отправляет текстовое сообщение. Если <code>chatId</code> не указан, используется последний активный чат.</p>
-            <div class="relative">
-                <pre><code class="language-lua">telegram.sendMessage(nil, "привет, $first_name$! как дела?", { parseMode = "Markdown" }, function(result, error)
-    if error then
-        print("ошибка: " .. error)
-    else
-        print("сообщение ушло!")
-    end
-end)
-</code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
-            <p class="mt-2">Параметры:</p>
-            <ul class="list-disc pl-5">
-                <li><code>chatId</code>: ID чата (необязательный, по умолчанию последний чат).</li>
-                <li><code>text</code>: Текст сообщения (до 4096 символов, поддерживает константы).</li>
-                <li><code>options</code>: Настройки (необязательный):
-                    <ul class="list-circle pl-5">
-                        <li><code>parseMode</code>: "Markdown" или "HTML".</li>
-                        <li><code>disableWebPagePreview</code>: true/false для отключения предпросмотра ссылок.</li>
-                    </ul>
-                </li>
-                <li><code>callback</code>: Функция обратного вызова (result, error).</li>
-            </ul>
-        </section>
-
-        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="send-media">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-4
-
-System: 00">Отправка Медиа</h3>
-            <p class="mb-2">Метод <code class="bg-gray-700 px-1 rounded">sendMedia</code> отправляет фото, видео, аудио или файлы. Если <code>chatId</code> не указан, используется последний активный чат.</p>
-            <div class="relative">
-                <pre><code class="language-lua">telegram.sendMedia(nil, "photo", "https://example.com/image.jpg", {
-    caption = "фото для $first_name$!",
-    parseMode = "Markdown"
-}, function(result, error)
-    if error then
-        print("ошибка: " .. error)
-    else
-        print("медиа отправлено!")
-    end
-end)
-</code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
-            <p class="mt-2">Параметры:</p>
-            <ul class="list-disc pl-5">
-                <li><code>chatId</code>: ID чата (необязательный, по умолчанию последний чат).</li>
-                <li><code>type</code>: Тип медиа ("photo", "video", "audio", "document").</li>
-                <li><code>media</code>: URL или file_id медиа.</li>
-                <li><code>options</code>: Настройки (необязательный):
-                    <ul class="list-circle pl-5">
-                        <li><code>caption</code>: Подпись (до 1024 символов, поддерживает константы).</li>
-                        <li><code>parseMode</code>: "Markdown" или "HTML".</li>
-                    </ul>
-                </li>
-                <li><code>callback</code>: Функция обратного вызова (result, error).</li>
-            </ul>
-        </section>
-
-        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="inline-keyboard">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Inline-Кнопки</h3>
-            <p class="mb-2">Метод <code class="bg-gray-700 px-1 rounded">sendInlineKeyboard</code> отправляет сообщение с интерактивными кнопками. Если <code>chatId</code> не указан, используется последний активный чат.</p>
-            <div class="relative">
-                <pre><code class="language-lua">telegram.sendInlineKeyboard(nil, "выбери, $first_name$:", {
-    {{text = "кнопка 1", callback_data = "btn1"}},
-    {{text = "кнопка 2", callback_data = "btn2"}}
-}, function(result, error)
-    if error then
-        print("ошибка: " .. error)
-    else
-        print("кнопки отправлены!")
-    end
-end)
-</code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
-            <p class="mt-2">Параметры:</p>
-            <ul class="list-disc pl-5">
-                <li><code>chatId</code>: ID чата (необязательный, по умолчанию последний чат).</li>
-                <li><code>text</code>: Текст сообщения (поддерживает константы).</li>
-                <li><code>keyboard</code>: Массив кнопок, где каждый элемент — массив объектов:
-                    <ul class="list-circle pl-5">
-                        <li><code>text</code>: Текст кнопки.</li>
-                        <li><code>callback_data</code>: Данные, отправляемые при нажатии (до 64 байт).</li>
-                    </ul>
-                </li>
-                <li><code>callback</code>: Функция обратного вызова (result, error).</li>
-            </ul>
-        </section>
-
-        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="callback-query">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Callback-Запросы</h3>
-            <h4 class="text-xl font-semibold mb-2">Что такое Callback-Запросы?</h4>
-            <p class="mb-2">Callback-запросы — это события, которые Telegram отправляет боту при нажатии пользователем inline-кнопки. Они содержат данные из <code>callback_data</code> и позволяют реагировать на действия (например, показать уведомление).</p>
-            <p class="mb-2">Метод <code class="bg-gray-700 px-1 rounded">answerCallbackQuery</code> подтверждает обработку запроса и может отправить уведомление.</p>
-
-            <h4 class="text-xl font-semibold mb-2">Параметры answerCallbackQuery</h4>
-            <ul class="list-disc pl-5 mb-2">
-                <li><code>callbackQueryId</code>: ID callback-запроса (обязательный).</li>
-                <li><code>text</code>: Текст уведомления (необязательный, до 200 символов, поддерживает константы).</li>
-                <li><code>showAlert</code>: true/false, показывать всплывающее окно (false по умолчанию).</li>
-                <li><code>callback</code>: Функция обратного вызова (result, error).</li>
-            </ul>
-
-            <h4 class="text-xl font-semibold mb-2">Примеры Использования</h4>
-            <p class="mb-2">1. Простой ответ:</p>
-            <div class="relative">
-                <pre><code class="language-lua">telegram.answerCallbackQuery(callbackQueryId, "ты нажал кнопку, $first_name$!", false, function(result, error)
-    if error then
-        print("ошибка: " .. error)
-    else
-        print("ответ отправлен!")
-    end
-end)
-</code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
-            <p class="mb-2 mt-2">2. Всплывающее уведомление:</p>
+                <li><code>$last caras="mb-2 mt-2">2. Всплывающее уведомление:</p>
             <div class="relative">
                 <pre><code class="language-lua">telegram.answerCallbackQuery(callbackQueryId, "действие подтверждено, $username$!", true, function(result, error)
     if error then
@@ -296,7 +135,7 @@ end)
 end
 
 -- запускаем polling
-telegram.startPolling(eventHandler)
+telegram.startBotPolling(eventHandler)
 </code></pre>
                 <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,56 +145,37 @@ telegram.startPolling(eventHandler)
             </div>
         </section>
 
-        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="polling">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Polling</h3>
-            <p class="mb-2">Метод <code class="bg-gray-700 px-1 rounded">startPolling</code> запускает обработку сообщений и событий в реальном времени.</p>
-            <div class="relative">
-                <pre><code class="language-lua">local function eventHandler(eventType, data)
-    if eventType == "command" and data.command == "start" then
-        telegram.sendMessage(data.chatId, "добро пожаловать, $first_name$!", nil)
-    elseif eventType == "callback_query" then
-        telegram.answerCallbackQuery(data.callbackQueryId, "ты кликнул: $last_message_text$")
-    end
-end
+        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="userbot-api">
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">API для Юзерботов</h3>
+            <p class="mb-2">API для юзерботов использует MTProto API, позволяя выполнять действия от имени пользователя. <strong>Внимание:</strong> Юзерботы неофициальны, использование VOIP-номеров может привести к бану.</p>
 
--- запускаем polling
-telegram.startPolling(eventHandler)
-</code></pre>
-                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </button>
-            </div>
-            <p class="mt-2">Параметры:</p>
-            <ul class="list-disc pl-5">
-                <li><code>eventHandler</code>: Функция, обрабатывающая события:
-                    <ul class="list-circle pl-5">
-                        <li><code>eventType</code>: Тип события ("command", "message", "callback_query").</li>
-                        <li><code>data</code>: Данные события (зависят от типа).</li>
-                    </ul>
-                </li>
-            </ul>
-        </section>
-
-        <section class="mb-8 bg-gray-800 p-6 rounded-lg" id="webhook">
-            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Вебхуки</h3>
-            <p class="mb-2">Методы <code class="bg-gray-700 px-1 rounded">setWebhook</code> и <code class="bg-gray-700 px-1 rounded">deleteWebhook</code> настраивают вебхуки для продакшена.</p>
+            <h4 class="text-xl font-semibold mb-2">Инициализация и Авторизация</h4>
+            <p class="mb-2">Инициализируйте юзербота и авторизуйтесь.</p>
             <div class="relative">
-                <pre><code class="language-lua">telegram.setWebhook("https://your-server.com/webhook", function(result, error)
+                <pre><code class="language-lua">telegram.initUserbot({
+    apiId = 12345,
+    apiHash = "YOUR_API_HASH",
+    phoneNumber = "+1234567890"
+})
+
+-- запрос кода
+telegram.requestCode(function(result, error)
     if error then
         print("ошибка: " .. error)
     else
-        print("вебхук настроен!")
+        print("код отправлен!")
     end
 end)
 
--- убираем вебхук
-telegram.deleteWebhook(function(result, error)
+-- вход
+telegram.signIn({
+    code = "12345",
+    password = "your_2fa_password"
+}, function(result, error)
     if error then
         print("ошибка: " .. error)
     else
-        print("вебхук удален!")
+        print("авторизация успешна!")
     end
 end)
 </code></pre>
@@ -367,57 +187,321 @@ end)
             </div>
             <p class="mt-2">Параметры:</p>
             <ul class="list-disc pl-5">
-                <li><code>url</code>: URL вебхука (для setWebhook).</li>
-                <li><code>callback</code>: Функция обратного вызова (result, error).</li>
+                <li><code>apiId</code>, <code>apiHash</code>, <code>phoneNumber</code>: Обязательные.</li>
+                <li><code>code</code>, <code>password</code>: Для <code>signIn</code>.</li>
             </ul>
-        </section>
-    </main>
 
-    <footer class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto px-4 text-center">
-            <p>© 2025 TGBOT SOLAR API. Создан <a href="https://t.me/xqss_DEVELOPER" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">@xqss_DEVELOPER</a>.</p>
-            <p>Заходи в наш <a href="https://t.me/tgbot_solar2d" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Telegram-канал</a> за обновлениями.</p>
-        </div>
-    </footer>
+            <h4 class="text-xl font-semibold mb-2">Методы Юзербота</h4>
+            <p class="mb-2">1. Отправка сообщения:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotSendMessage(nil, "привет, $first_name$!", nil, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("сообщение отправлено!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">2. Отправка медиа:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotSendMedia(nil, "photo", "https://example.com/image.jpg", {
+    caption = "фото для $first_name$!"
+}, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("медиа отправлено!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">3. Получение участников чата:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotGetChatMembers(123456789, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        for _, member in ipairs(result.members) do
+            print("участник: " .. member.first_name)
+        end
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">4. Пересылка сообщения:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotForwardMessage(123, 456, nil, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("сообщение переслано!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">5. Редактирование сообщения:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotEditMessage(nil, 123, "новый текст", function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("сообщение отредактировано!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">6. Удаление сообщения:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotDeleteMessage(nil, 123, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("сообщение удалено!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">7. Создание чата:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotCreateChat("новый чат", {123, 456}, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("чат создан!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">8. Присоединение к каналу:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotJoinChannel(123456789, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("присоединился к каналу!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">9. Выход из канала:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotLeaveChannel(123456789, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("покинул канал!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">10. Приглашение в чат:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotInviteToChat(nil, {123, 456}, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("пользователи приглашены!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">11. Кик из чата:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotKickChatMember(nil, 123, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("пользователь исключен!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">12. Получение истории чата:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotGetChatHistory(nil, 50, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("получено сообщений: " .. #result.messages)
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">13. Поиск сообщений:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotSearchMessages(nil, "привет", function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("найдено сообщений: " .. #result.messages)
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">14. Установка статуса ввода:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotSetTyping(nil, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("статус ввода установлен!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">15. Получение информации о пользователе:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotGetUserInfo(123, function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("имя: " .. result.first_name)
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mb-2">16. Добавление контакта:</p>
+            <div class="relative">
+                <pre><code class="language-lua">telegram.userbotAddContact(123, "Иван", "Иванов", function(result, error)
+    if error then
+        print("ошибка: " .. error)
+    else
+        print("контакт добавлен!")
+    end
+end)
+</code></pre>
+                <button class="copy-btn absolute top-2 right-2 bg-gray-600 p-2 rounded" title="Копировать код">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24  Ergonomic considerations for modern office chairs include adjustable seat height, lumbar support, armrest adjustability, and breathable materials to enhance comfort during prolonged sitting. These features reduce strain and promote better posture. For detailed standards, refer to resources like the [Human Factors and Ergonomics Society](https://www.hfes.org/) or [ANSI/BIFMA guidelines](https://www.bifma.org/).
 
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        let startX, isDragging = false;
 
-        document.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = startX < 50;
-        });
+-- простой клиент на telegram_api.lua
+-- демонстрирует авторизацию юзербота и базовые действия
 
-        document.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const currentX = e.touches[0].clientX;
-            if (currentX > startX && currentX > 50) {
-                sidebar.classList.remove('-translate-x-full');
-            }
-        });
+local telegram = require("telegram_api")
 
-        document.addEventListener('touchend', () => {
-            isDragging = false;
-        });
+-- инициализация юзербота
+telegram.initUserbot({
+    apiId = 12345, -- замени на свой api_id
+    apiHash = "YOUR_API_HASH", -- замени на свой api_hash
+    phoneNumber = "+1234567890" -- замени на свой номер
+})
 
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.add('-translate-x-full');
-            }
-        });
-
-        document.querySelectorAll('.copy-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const code = btn.parentElement.querySelector('code').textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                    btn.innerHTML = '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-                    setTimeout(() => {
-                        btn.innerHTML = '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>';
-                    }, 2000);
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+-- запрос кода подтверждения
+telegram.requestCode(function(result, error)
+    if error then
+        print("ошибка при запросе кода: " .. error)
+        return
+    end
+    print("код отправлен на " .. telegram.phoneNumber)
+    -- тут нужно ввести код вручную или через UI
+    local code = "12345" -- замени на полученный код
+    telegram.signIn({
+        code = code,
+        password = "your_2fa_password" -- если 2FA включена
+    }, function(result, error)
+        if error then
+            print("ошибка авторизации: " .. error)
+            return
+        end
+        print("юзербот авторизован!")
+        
+        -- отправка тестового сообщения
+        telegram.userbotSendMessage(nil, "привет, $first_name$! я юзербот!", nil, function(result, error)
+            if error then
+                print("ошибка отправки: " .. error)
+            else
+                print("сообщение отправлено!")
+            end
+        end)
+        
+        -- обработка событий
+        local function eventHandler(eventType, data)
+            if eventType == "message" then
+                print("новое сообщение от " .. data.chatId .. ": " .. (data.text or ""))
+                telegram.userbotSendMessage(data.chatId, "получил: $last_message_text$", nil)
+            elseif eventType == "callback_query" then
+                print("нажата кнопка: " .. data.data)
+                telegram.userbotSendMessage(data.chatId, "ты нажал: " .. data.data, nil)
+            end
+        end
+        
+        -- запуск polling
+        telegram.startUserbotPolling(eventHandler)
+    end)
+end)
